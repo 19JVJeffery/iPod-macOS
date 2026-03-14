@@ -1,5 +1,8 @@
-# Flutter-related
-**/Flutter/ephemeral/
+# Flutter-related – ignore generated ephemeral files but keep xcfilelist placeholders
+**/Flutter/ephemeral/Flutter-Generated.xcconfig
+**/Flutter/ephemeral/.app_filename
+**/Flutter/ephemeral/tripwire
+**/Flutter/ephemeral/.symlinks
 **/Pods/
 
 # Xcode-related
