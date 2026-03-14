@@ -380,7 +380,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"$PRODUCT_NAME.app\" > \"$PROJECT_DIR\"/Flutter/ephemeral/.app_filename && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/macos_assemble.sh embed\n";
+			shellScript = "if [[ -z \"$FLUTTER_ROOT\" ]]; then\n  [ -f \"$HOME/.zshenv\" ] && source \"$HOME/.zshenv\" 2>/dev/null || true\n  [ -f \"$HOME/.zprofile\" ] && source \"$HOME/.zprofile\" 2>/dev/null || true\n  FLUTTER_CMD=\"$(command -v flutter 2>/dev/null)\"\n  if [[ -n \"$FLUTTER_CMD\" ]]; then\n    FLUTTER_ROOT=\"$(python3 -c \"import os, sys; p=sys.argv[1]; print(os.path.dirname(os.path.dirname(os.path.realpath(p))))\" \"$FLUTTER_CMD\" 2>/dev/null)\"\n  fi\nfi\nif [[ -z \"$FLUTTER_ROOT\" ]]; then\n  echo \"error: FLUTTER_ROOT is not set. Run 'flutter pub get' then 'pod install' before building in Xcode.\" >&2\n  exit 1\nfi\necho \"$PRODUCT_NAME.app\" > \"$PROJECT_DIR\"/Flutter/ephemeral/.app_filename && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/macos_assemble.sh embed\n";
 		};
 		33CC111E2044C6BF0003C045 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -401,7 +401,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -z \"$FLUTTER_ROOT\" ]]; then\n  echo \"error: FLUTTER_ROOT is not set. Run 'flutter pub get' then 'pod install' before building in Xcode.\" >&2\n  exit 1\nfi\n\"$FLUTTER_ROOT\"/packages/flutter_tools/bin/macos_assemble.sh && touch Flutter/ephemeral/tripwire";
+			shellScript = "if [[ -z \"$FLUTTER_ROOT\" ]]; then\n  [ -f \"$HOME/.zshenv\" ] && source \"$HOME/.zshenv\" 2>/dev/null || true\n  [ -f \"$HOME/.zprofile\" ] && source \"$HOME/.zprofile\" 2>/dev/null || true\n  FLUTTER_CMD=\"$(command -v flutter 2>/dev/null)\"\n  if [[ -n \"$FLUTTER_CMD\" ]]; then\n    FLUTTER_ROOT=\"$(python3 -c \"import os, sys; p=sys.argv[1]; print(os.path.dirname(os.path.dirname(os.path.realpath(p))))\" \"$FLUTTER_CMD\" 2>/dev/null)\"\n  fi\nfi\nif [[ -z \"$FLUTTER_ROOT\" ]]; then\n  echo \"error: FLUTTER_ROOT is not set. Run 'flutter pub get' then 'pod install' before building in Xcode.\" >&2\n  exit 1\nfi\n\"$FLUTTER_ROOT\"/packages/flutter_tools/bin/macos_assemble.sh && touch Flutter/ephemeral/tripwire";
 		};
 		C3BCFEBDDCDE62BEF66AF3AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
