@@ -4,10 +4,14 @@
 **/Flutter/ephemeral/tripwire
 **/Flutter/ephemeral/.symlinks
 **/Pods/**
+!**/Pods/Manifest.lock
 !**/Pods/Target Support Files/
 !**/Pods/Target Support Files/Pods-Runner/
 !**/Pods/Target Support Files/Pods-Runner/*.xcfilelist
+!**/Pods/Target Support Files/Pods-Runner/*.xcconfig
 !**/Pods/Target Support Files/Pods-Runner/*.sh
+!**/Pods/Target Support Files/Pods-RunnerTests/
+!**/Pods/Target Support Files/Pods-RunnerTests/*.xcconfig
 
 # Xcode-related
 **/dgph
