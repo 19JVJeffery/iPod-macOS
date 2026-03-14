@@ -3,7 +3,11 @@
 **/Flutter/ephemeral/.app_filename
 **/Flutter/ephemeral/tripwire
 **/Flutter/ephemeral/.symlinks
-**/Pods/
+**/Pods/**
+!**/Pods/Target Support Files/
+!**/Pods/Target Support Files/Pods-Runner/
+!**/Pods/Target Support Files/Pods-Runner/*.xcfilelist
+!**/Pods/Target Support Files/Pods-Runner/*.sh
 
 # Xcode-related
 **/dgph

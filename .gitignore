@@ -6,7 +6,11 @@
 build/
 
 # macOS – ignore generated ephemeral files but keep xcfilelist placeholders
-macos/Pods/
+macos/Pods/**
+!macos/Pods/Target Support Files/
+!macos/Pods/Target Support Files/Pods-Runner/
+!macos/Pods/Target Support Files/Pods-Runner/*.xcfilelist
+!macos/Pods/Target Support Files/Pods-Runner/*.sh
 macos/.symlinks/
 macos/Flutter/ephemeral/Flutter-Generated.xcconfig
 macos/Flutter/ephemeral/.app_filename
