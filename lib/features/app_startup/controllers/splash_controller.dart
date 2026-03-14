@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:classipod/core/navigation/routes.dart';
 import 'package:classipod/core/providers/filtered_audio_files_provider.dart';
 import 'package:classipod/core/services/audio_player_service.dart';
@@ -10,9 +8,7 @@ import 'package:classipod/features/music/playlist/providers/playlists_provider.d
 import 'package:classipod/features/music/songs/provider/songs_provider.dart';
 import 'package:classipod/features/settings/controller/settings_preferences_controller.dart';
 import 'package:classipod/features/tutorial/controller/tutorial_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 final splashControllerProvider =
     AsyncNotifierProvider<SplashControllerNotifier, void>(
@@ -22,29 +18,7 @@ final splashControllerProvider =
 class SplashControllerNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {
-    await requestStoragePermissions();
-  }
-
-  Future<void> requestStoragePermissions() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-        final PermissionStatus audioPermission = await Permission.audio
-            .request();
-        final PermissionStatus genericStoragePermission = await Permission
-            .storage
-            .request();
-        if (audioPermission.isDenied && genericStoragePermission.isDenied) {
-          throw const AudioPermissionDeniedException();
-        }
-        if (audioPermission.isPermanentlyDenied &&
-            genericStoragePermission.isPermanentlyDenied) {
-          throw const AudioPermissionPermanentlyDeniedException();
-        }
-      }
-
-      await initializeApp();
-    });
+    await initializeApp();
   }
 
   Future<void> initializeApp() async {
@@ -77,12 +51,4 @@ class SplashControllerNotifier extends AsyncNotifier<void> {
     // Navigate to the menu screen
     ref.read(routerProvider).goNamed(Routes.menu.name);
   }
-}
-
-class AudioPermissionDeniedException implements Exception {
-  const AudioPermissionDeniedException();
-}
-
-class AudioPermissionPermanentlyDeniedException implements Exception {
-  const AudioPermissionPermanentlyDeniedException();
 }

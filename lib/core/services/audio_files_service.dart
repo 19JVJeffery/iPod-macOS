@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:classipod/core/constants/constants.dart';
 import 'package:classipod/core/constants/online_audio_files_metadata.dart';
@@ -15,7 +14,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:on_audio_query/on_audio_query.dart' show OnAudioQuery;
 
 final audioFilesServiceProvider =
     AsyncNotifierProvider<
@@ -102,73 +100,38 @@ class AudioFilesServiceNotifier
         );
         // Check if the metadata box is empty
         if (metadataBox.isEmpty) {
-          if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-            if (_suppressDirectoryPrompt) {
-              _suppressDirectoryPrompt = false;
-              return UnmodifiableListView([]);
-            }
-            final String? lastDirectory = ref
-                .read(settingsPreferencesRepositoryProvider)
-                .getLastMusicDirectory();
-            final String initialDirectory =
-                lastDirectory ??
-                ref
-                    .read(deviceDirectoryProvider)
-                    .requireValue
-                    .musicFolderPath;
-            final newDirectory = await FilePicker.platform.getDirectoryPath(
-              dialogTitle: "Select Music Directory",
-              lockParentWindow: true,
-              initialDirectory: initialDirectory,
-            );
-            if (newDirectory != null) {
-              final result = await compute(
-                ref
-                    .read(metadataReaderRepositoryProvider)
-                    .extractMetadataFromDirectory,
-                newDirectory,
-              );
-              await metadataBox.addAll(result);
-              await ref
-                  .read(settingsPreferencesRepositoryProvider)
-                  .setLastMusicDirectory(directoryPath: newDirectory);
-              return UnmodifiableListView(result);
-            } else {
-              return UnmodifiableListView([]);
-            }
-          } else if (Platform.isIOS) {
-            final pickedFiles = await FilePicker.platform.pickFiles(
-              allowMultiple: true,
-              dialogTitle: "Pick Song Files",
-            );
-
-            if (pickedFiles == null || pickedFiles.files.isEmpty) {
-              return UnmodifiableListView([]);
-            }
-
-            final result = await compute(
-              ref
-                  .read(metadataReaderRepositoryProvider)
-                  .extractMetadataFromFiles,
-              pickedFiles.files.map((f) => f.path!).toList(),
-            );
-
-            await metadataBox.addAll(result);
-            return UnmodifiableListView(result);
+          if (_suppressDirectoryPrompt) {
+            _suppressDirectoryPrompt = false;
+            return UnmodifiableListView([]);
           }
-          // On Android Automatically Fetch Music Files
-          else {
-            final OnAudioQuery audioQuery = OnAudioQuery();
-            final queriedSongs = await audioQuery.querySongs();
-
+          final String? lastDirectory = ref
+              .read(settingsPreferencesRepositoryProvider)
+              .getLastMusicDirectory();
+          final String initialDirectory =
+              lastDirectory ??
+              ref
+                  .read(deviceDirectoryProvider)
+                  .requireValue
+                  .musicFolderPath;
+          final newDirectory = await FilePicker.platform.getDirectoryPath(
+            dialogTitle: "Select Music Directory",
+            lockParentWindow: true,
+            initialDirectory: initialDirectory,
+          );
+          if (newDirectory != null) {
             final result = await compute(
               ref
                   .read(metadataReaderRepositoryProvider)
-                  .extractMetadataFromFiles,
-              queriedSongs.map((e) => e.data).toList(growable: false),
+                  .extractMetadataFromDirectory,
+              newDirectory,
             );
             await metadataBox.addAll(result);
+            await ref
+                .read(settingsPreferencesRepositoryProvider)
+                .setLastMusicDirectory(directoryPath: newDirectory);
             return UnmodifiableListView(result);
+          } else {
+            return UnmodifiableListView([]);
           }
         }
         // Return cached metadata
