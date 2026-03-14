@@ -8,7 +8,7 @@ class WindowControlsService {
       MethodChannel('classipod/window_controls');
 
   static bool get isSupported =>
-      !kIsWeb && defaultTargetPlatform == TargetPlatform.macOS;
+      defaultTargetPlatform == TargetPlatform.macOS;
 
   static Future<void> close() => _invoke('close');
 

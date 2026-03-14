@@ -1,32 +1,16 @@
 import 'dart:io';
 
-import 'package:classipod/core/constants/constants.dart';
-
 class DeviceDirectory {
   final Directory documentsDirectory;
 
   DeviceDirectory({required this.documentsDirectory});
 
   String get musicFolderPath {
-    if (Platform.isAndroid) {
-      return Constants.androidDefaultMusicFolderPath;
-    } else if (Platform.isWindows) {
-      final pathList = documentsDirectory.path.split('\\');
-      pathList[pathList.length - 1] = 'Music';
-      return pathList.join('\\');
-    } else if (Platform.isLinux) {
-      return Platform.environment['HOME'] ?? '/';
-    } else if (Platform.isMacOS) {
-      final homeDirectory = Platform.environment['HOME'];
-      if (homeDirectory == null || homeDirectory.isEmpty) {
-        return documentsDirectory.path;
-      }
-      return '$homeDirectory/Music';
-    } else {
-      final pathList = documentsDirectory.path.split('/');
-      pathList[pathList.length - 1] = 'Music';
-      return pathList.join('/');
+    final homeDirectory = Platform.environment['HOME'];
+    if (homeDirectory == null || homeDirectory.isEmpty) {
+      return documentsDirectory.path;
     }
+    return '$homeDirectory/Music';
   }
 
   @override

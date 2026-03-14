@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' as io;
 
 import 'package:classipod/core/alerts/dialogs.dart';
 import 'package:classipod/core/constants/constants.dart';
@@ -18,12 +17,9 @@ import 'package:classipod/features/settings/models/volume_mode.dart';
 import 'package:classipod/features/settings/repository/settings_preferences_repository.dart';
 import 'package:classipod/features/tutorial/controller/tutorial_controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:universal_html/html.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 final settingsPreferencesControllerProvider =
@@ -68,22 +64,7 @@ class SettingsPreferencesControllerNotifier
     );
   }
 
-  Future<void> setSystemUiMode() async {
-    if (kIsWeb) {
-      if (state.immersiveMode) {
-        // ignore: unawaited_futures
-        document.documentElement?.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    } else if (io.Platform.isAndroid || io.Platform.isIOS) {
-      if (state.immersiveMode) {
-        await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-      } else {
-        await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      }
-    }
-  }
+  Future<void> setSystemUiMode() async {}
 
   void setAudioSource({required bool isOnlineAudioSource}) {
     if (isOnlineAudioSource) {

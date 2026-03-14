@@ -3,19 +3,13 @@ import 'dart:ui';
 import 'package:classipod/core/services/audio_files_service.dart';
 import 'package:classipod/core/services/window_controls_service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FloatingWindowControls extends ConsumerWidget {
   const FloatingWindowControls({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.macOS) {
-      return const SizedBox.shrink();
-    }
-
-    final importState = ref.watch(musicImportStateProvider);
+  Widget build(BuildContext context, WidgetRef ref) {    final importState = ref.watch(musicImportStateProvider);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),

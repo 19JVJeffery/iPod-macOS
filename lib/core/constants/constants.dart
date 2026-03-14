@@ -7,8 +7,6 @@ class Constants {
   static const String excludedDirectoriesBoxName = "excluded_directories_box";
 
   static const String defaultLanguageLocaleCode = "en";
-  static const String androidDefaultMusicFolderPath =
-      "/storage/emulated/0/Music";
   static const String defaultNotificationAlbumArtImageUrl =
       "'https://files.radio.co/humorous-skink/staging/default-artwork.png'";
 

@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:classipod/core/constants/app_palette.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
@@ -557,7 +556,7 @@ class _SegmentedControlState<T extends Object>
           inMutuallyExclusiveGroup: true,
           selected: widget.groupValue == entry.key,
           child: MouseRegion(
-            cursor: kIsWeb ? SystemMouseCursors.click : MouseCursor.defer,
+            cursor: MouseCursor.defer,
             child: _Segment<T>(
               key: ValueKey<T>(entry.key),
               highlighted: isHighlighted,
