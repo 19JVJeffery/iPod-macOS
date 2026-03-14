@@ -5,11 +5,17 @@
 .packages
 build/
 
-# macOS
+# macOS – ignore generated ephemeral files but keep xcfilelist placeholders
 macos/Pods/
 macos/.symlinks/
-macos/Flutter/ephemeral/
-macos/flutter/ephemeral/
+macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+macos/Flutter/ephemeral/.app_filename
+macos/Flutter/ephemeral/tripwire
+macos/Flutter/ephemeral/.symlinks
+macos/flutter/ephemeral/Flutter-Generated.xcconfig
+macos/flutter/ephemeral/.app_filename
+macos/flutter/ephemeral/tripwire
+macos/flutter/ephemeral/.symlinks
 
 # IDE
 .idea/
