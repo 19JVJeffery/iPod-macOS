@@ -47,7 +47,7 @@ struct SplashView: View {
             withAnimation(.easeIn(duration: 0.5)) {
                 opacity = 1
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation {
                     showScanning = true
                 }

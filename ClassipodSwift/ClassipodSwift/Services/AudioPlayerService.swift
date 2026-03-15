@@ -93,8 +93,11 @@ class AudioPlayerService: ObservableObject {
     
     func seek(to time: TimeInterval) {
         let cmTime = CMTime(seconds: time, preferredTimescale: 600)
-        player?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        isSeeking = true
         currentTime = time
+        player?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+            self?.isSeeking = false
+        }
     }
     
     func setVolume(_ v: Float) {

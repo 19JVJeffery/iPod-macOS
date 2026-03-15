@@ -64,9 +64,11 @@ class AppViewModel: ObservableObject {
         loadPlaylists()
     }
     
+    private static let splashDuration: TimeInterval = 2.5
+
     init() {
-        // Transition from splash to main menu after short delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+        // Transition from splash to main menu after splash duration
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.splashDuration) { [weak self] in
             self?.screenStack = [.mainMenu]
             self?.selectedIndex = 0
             // Load saved music directories

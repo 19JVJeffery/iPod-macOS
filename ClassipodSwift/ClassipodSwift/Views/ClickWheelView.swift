@@ -38,12 +38,6 @@ struct ClickWheelView: View {
                     accumulatedDelta = 0
                 }
         )
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded {
-                    // Tap on outer ring: determine quadrant
-                }
-        )
         .onTapGesture { location in
             handleTap(at: location)
         }

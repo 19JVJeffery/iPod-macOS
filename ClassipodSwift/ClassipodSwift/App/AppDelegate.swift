@@ -4,7 +4,6 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow?
     private var trackingArea: NSTrackingArea?
-    private var windowControlsOverlay: NSView?
 
     static let deviceWidth: CGFloat = 443.19754
     static let deviceHeight: CGFloat = 728.76343

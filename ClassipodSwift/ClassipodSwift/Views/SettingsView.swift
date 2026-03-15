@@ -5,8 +5,6 @@ struct SettingsView: View {
     @EnvironmentObject var vm: AppViewModel
     @EnvironmentObject var settings: SettingsService
     @EnvironmentObject var musicLibrary: MusicLibraryService
-    @State private var showFolderPicker = false
-    @State private var showResetAlert = false
 
     private let items: [(String, String)] = [
         ("About", "info.circle"),
@@ -39,13 +37,6 @@ struct SettingsView: View {
             }
         }
         .background(Color(hex: "C5D0D8"))
-        .sheet(isPresented: $showFolderPicker) {
-            // NSOpenPanel for folder picking is triggered via button tap
-        }
-        .onChange(of: selectedIndex) { idx in
-            // Select action via click wheel center button is handled in AppViewModel
-            // But double-tap on Music Folder should open picker
-        }
     }
 
     @ViewBuilder

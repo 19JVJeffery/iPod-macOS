@@ -5,6 +5,11 @@ struct NowPlayingView: View {
     @EnvironmentObject var audioPlayer: AudioPlayerService
 
     @State private var showLyrics = false
+    @State private var bottomBarMode: BottomBarMode = .progress
+
+    enum BottomBarMode: CaseIterable {
+        case progress, shuffle, rating, lyrics
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -66,6 +71,19 @@ struct NowPlayingView: View {
                         .foregroundColor(.gray.opacity(0.8))
                         .padding(.top, 3)
 
+                    // Lyrics display (shown when lyrics are available and user cycles to lyrics mode)
+                    if showLyrics, let lyrics = audioPlayer.currentSong?.lyrics {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            Text(lyrics)
+                                .font(.system(size: 9))
+                                .foregroundColor(.black.opacity(0.7))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 4)
+                        }
+                        .frame(maxHeight: 40)
+                    }
+
                     Spacer()
                 }
             } else {
@@ -73,6 +91,12 @@ struct NowPlayingView: View {
             }
         }
         .background(Color(hex: "C5D0D8"))
+        .onChange(of: vm.selectedIndex) { _ in
+            // Center button press cycles lyrics visibility
+            if audioPlayer.currentSong?.lyrics != nil {
+                showLyrics.toggle()
+            }
+        }
     }
 
     // MARK: - Artwork

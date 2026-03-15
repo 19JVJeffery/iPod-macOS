@@ -9,7 +9,10 @@ class MusicLibraryService: ObservableObject {
     @Published var isScanning: Bool = false
     @Published var scanProgress: Double = 0
     
-    private let supportedExtensions = ["mp3", "m4a", "aac", "flac", "wav", "aiff", "aif", "caf"]
+    private let supportedExtensions = [
+        "mp3", "m4a", "aac", "flac", "wav", "aiff", "aif",
+        "caf" // Core Audio Format - native macOS container format
+    ]
     private var scanTask: Task<Void, Never>?
     
     func scanDirectories(_ urls: [URL]) {
