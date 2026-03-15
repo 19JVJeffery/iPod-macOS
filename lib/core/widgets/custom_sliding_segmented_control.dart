@@ -778,11 +778,10 @@ class _RenderSegmentedControl<T extends Object> extends RenderBox
     while (child != null) {
       final _SegmentedControlContainerBoxParentData childParentData =
           child.parentData! as _SegmentedControlContainerBoxParentData;
-      final double clampX = clampDouble(
-        dx,
+      final double clampX = dx.clamp(
         childParentData.offset.dx,
         child.size.width + childParentData.offset.dx,
-      );
+      ).toDouble();
 
       if (dx <= clampX) {
         break;
@@ -925,7 +924,7 @@ class _RenderSegmentedControl<T extends Object> extends RenderBox
     final double allowedMinWidth = constraints.minWidth - totalSeparatorWidth;
 
     final double scale =
-        clampDouble(totalWidth, allowedMinWidth, allowedMaxWidth) / totalWidth;
+        totalWidth.clamp(allowedMinWidth, allowedMaxWidth).toDouble() / totalWidth;
     if (scale != 1) {
       for (int i = 0; i < segmentWidths.length; i++) {
         segmentWidths[i] = segmentWidths[i] * scale;
