@@ -105,31 +105,36 @@ class MusicLibraryService: ObservableObject {
             }
             
             // Load additional metadata (track number, genre, album artist)
-            let allMetadata = try await asset.loadMetadata(for: .id3Metadata)
-            let mp4Metadata = try await asset.loadMetadata(for: .iTunesMetadata)
+            // Use string-based identifier matching for reliability across macOS versions
+            let allMetadata = (try? await asset.loadMetadata(for: .id3Metadata)) ?? []
+            let mp4Metadata = (try? await asset.loadMetadata(for: .iTunesMetadata)) ?? []
             
             for item in allMetadata + mp4Metadata {
-                if let identifier = item.identifier {
-                    switch identifier {
-                    case .id3MetadataTrackNumber, .iTunesMetadataTrackNumber:
-                        if let value = try? await item.load(.stringValue) {
-                            let parts = value.split(separator: "/")
-                            trackNumber = Int(parts.first ?? "0") ?? 0
-                        }
-                    case .id3MetadataContentType, .iTunesMetadataUserGenre:
-                        if let value = try? await item.load(.stringValue), !value.isEmpty {
-                            genre = value
-                        }
-                    case .id3MetadataAlbumArtist, .iTunesMetadataAlbumArtist:
-                        if let value = try? await item.load(.stringValue), !value.isEmpty {
-                            albumArtist = value
-                        }
-                    case .id3MetadataUnsynchronizedLyric:
-                        if let value = try? await item.load(.stringValue), !value.isEmpty {
-                            lyrics = value
-                        }
-                    default:
-                        break
+                guard let identifier = item.identifier else { continue }
+                let idStr = identifier.rawValue
+                
+                if idStr.contains("TRCK") || idStr.contains("trkn") {
+                    // Track number
+                    if let value = try? await item.load(.stringValue) {
+                        let parts = value.split(separator: "/")
+                        trackNumber = Int(parts.first ?? "0") ?? 0
+                    } else if let num = try? await item.load(.numberValue) {
+                        trackNumber = num.intValue
+                    }
+                } else if idStr.contains("TCON") || idStr.contains("©gen") || idStr.contains("gnre") {
+                    // Genre
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
+                        genre = value
+                    }
+                } else if idStr.contains("TPE2") || idStr.contains("aART") {
+                    // Album artist
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
+                        albumArtist = value
+                    }
+                } else if idStr.contains("USLT") {
+                    // Unsynchronized lyrics
+                    if let value = try? await item.load(.stringValue), !value.isEmpty {
+                        lyrics = value
                     }
                 }
             }

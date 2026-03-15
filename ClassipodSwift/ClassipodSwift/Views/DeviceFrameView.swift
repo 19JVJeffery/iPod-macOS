@@ -68,6 +68,7 @@ struct DeviceFrameView: View {
                         ScreenView()
                             .environmentObject(vm)
                             .environmentObject(settings)
+                            .environmentObject(AudioPlayerService.shared)
                             .clipShape(RoundedRectangle(cornerRadius: 6 * scale))
                     )
             }

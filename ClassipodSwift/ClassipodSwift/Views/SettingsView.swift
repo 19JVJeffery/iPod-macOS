@@ -4,6 +4,9 @@ struct SettingsView: View {
     let selectedIndex: Int
     @EnvironmentObject var vm: AppViewModel
     @EnvironmentObject var settings: SettingsService
+    @EnvironmentObject var musicLibrary: MusicLibraryService
+    @State private var showFolderPicker = false
+    @State private var showResetAlert = false
 
     private let items: [(String, String)] = [
         ("About", "info.circle"),
@@ -36,6 +39,13 @@ struct SettingsView: View {
             }
         }
         .background(Color(hex: "C5D0D8"))
+        .sheet(isPresented: $showFolderPicker) {
+            // NSOpenPanel for folder picking is triggered via button tap
+        }
+        .onChange(of: selectedIndex) { idx in
+            // Select action via click wheel center button is handled in AppViewModel
+            // But double-tap on Music Folder should open picker
+        }
     }
 
     @ViewBuilder
@@ -56,6 +66,16 @@ struct SettingsView: View {
             // Value display
             Group {
                 switch idx {
+                case 1:
+                    // Music Folder
+                    Button {
+                        openFolderPicker()
+                    } label: {
+                        Text(musicLibrary.isScanning ? "Scanning..." : "Add Folder")
+                            .font(.system(size: 10))
+                            .foregroundColor(isSelected ? .white.opacity(0.8) : Color(hex: "3A6EBB"))
+                    }
+                    .buttonStyle(.plain)
                 case 2:
                     Toggle("", isOn: $settings.settings.clickWheelSoundEnabled)
                         .labelsHidden()
@@ -89,9 +109,14 @@ struct SettingsView: View {
                         .font(.system(size: 10))
                         .foregroundColor(isSelected ? .white.opacity(0.8) : .gray)
                 case 8:
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 9))
-                        .foregroundColor(isSelected ? .white.opacity(0.6) : .gray)
+                    Button {
+                        settings.resetToDefaults()
+                    } label: {
+                        Text("Reset")
+                            .font(.system(size: 10))
+                            .foregroundColor(isSelected ? .white.opacity(0.8) : .red)
+                    }
+                    .buttonStyle(.plain)
                 default:
                     Image(systemName: "chevron.right")
                         .font(.system(size: 9))
@@ -107,5 +132,16 @@ struct SettingsView: View {
                 : LinearGradient(colors: [Color(hex: "C5D0D8"), Color(hex: "C5D0D8")], startPoint: .top, endPoint: .bottom)
         )
         Divider().opacity(0.3)
+    }
+
+    private func openFolderPicker() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Select Music Folder"
+        if panel.runModal() == .OK, let url = panel.url {
+            musicLibrary.addMusicDirectory(url)
+        }
     }
 }

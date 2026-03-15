@@ -65,9 +65,10 @@ class AppViewModel: ObservableObject {
     }
     
     init() {
-        // Transition from splash after short delay
+        // Transition from splash to main menu after short delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
-            self?.push(.mainMenu)
+            self?.screenStack = [.mainMenu]
+            self?.selectedIndex = 0
             // Load saved music directories
             MusicLibraryService.shared.loadSavedDirectories()
         }
@@ -88,10 +89,8 @@ class AppViewModel: ObservableObject {
     }
     
     func popToRoot() {
-        if screenStack.count > 1 {
-            screenStack = [screenStack[0], .mainMenu]
-            selectedIndex = 0
-        }
+        screenStack = [.mainMenu]
+        selectedIndex = 0
     }
     
     // MARK: - Click wheel actions
@@ -236,6 +235,7 @@ class AppViewModel: ObservableObject {
             }
             return 0
         case .settings: return 9
+        case .deviceColorSelection: return DeviceColorOption.allCases.count
         default: return 0
         }
     }

@@ -3,14 +3,44 @@ import SwiftUI
 struct ScreenView: View {
     @EnvironmentObject var vm: AppViewModel
     @EnvironmentObject var settings: SettingsService
+    @EnvironmentObject var audioPlayer: AudioPlayerService
 
     var body: some View {
-        ZStack {
-            Color(hex: "C5D0D8")
-
-            screenContent
+        VStack(spacing: 0) {
+            // Status bar only on non-splash screens
+            if vm.currentScreen != .splash {
+                StatusBarView(title: screenTitle)
+                    .environmentObject(audioPlayer)
+            }
+            ZStack {
+                Color(hex: "C5D0D8")
+                screenContent
+            }
         }
         .font(.system(size: 13))
+    }
+
+    private var screenTitle: String {
+        switch vm.currentScreen {
+        case .splash: return ""
+        case .mainMenu: return "iPod"
+        case .musicMenu: return "Music"
+        case .songs: return "Songs"
+        case .albums: return "Albums"
+        case .albumSongs(let name, _): return name
+        case .artists: return "Artists"
+        case .artistAlbums(let artist): return artist
+        case .genres: return "Genres"
+        case .genreSongs(let genre): return genre
+        case .playlists: return "Playlists"
+        case .playlistSongs: return "Playlist"
+        case .search: return "Search"
+        case .nowPlaying: return "Now Playing"
+        case .coverFlow: return "Cover Flow"
+        case .settings: return "Settings"
+        case .deviceColorSelection: return "Device Color"
+        case .about: return "About"
+        }
     }
 
     @ViewBuilder
@@ -110,6 +140,7 @@ struct ScreenView: View {
             SettingsView(selectedIndex: vm.selectedIndex)
                 .environmentObject(vm)
                 .environmentObject(settings)
+                .environmentObject(MusicLibraryService.shared)
         case .deviceColorSelection:
             DeviceColorSelectionView(selectedIndex: vm.selectedIndex)
                 .environmentObject(vm)
