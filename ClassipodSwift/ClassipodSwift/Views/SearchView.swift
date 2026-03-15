@@ -62,7 +62,7 @@ struct SearchView: View {
                     Image(systemName: "music.note.list")
                         .font(.system(size: 28))
                         .foregroundColor(.gray.opacity(0.4))
-                    Text("No results for "\(query)"")
+                    Text("No results for \"\(query)\"")
                         .font(.system(size: 11))
                         .foregroundColor(.gray)
                 }

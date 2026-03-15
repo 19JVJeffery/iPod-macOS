@@ -31,16 +31,22 @@ struct ClickWheelView: View {
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
-                    handleDrag(value: value)
+                    // Only start tracking rotation after we've moved at least 3pt
+                    let dist = sqrt(pow(value.translation.width, 2) + pow(value.translation.height, 2))
+                    if dist >= 3 {
+                        handleDrag(value: value)
+                    }
                 }
-                .onEnded { _ in
+                .onEnded { value in
+                    let dragDist = sqrt(pow(value.translation.width, 2) + pow(value.translation.height, 2))
+                    if dragDist < 6 {
+                        // Treat as tap
+                        handleTap(at: value.startLocation)
+                    }
                     lastAngle = nil
                     accumulatedDelta = 0
                 }
         )
-        .onTapGesture { location in
-            handleTap(at: location)
-        }
     }
 
     // MARK: - Subviews
@@ -119,9 +125,7 @@ struct ClickWheelView: View {
                 Circle()
                     .strokeBorder(Color(hex: deviceColor.controlBorderHex).opacity(0.5), lineWidth: 1)
             )
-            .onTapGesture {
-                vm.selectCurrent()
-            }
+            .allowsHitTesting(false)
     }
 
     // MARK: - Gesture Handling

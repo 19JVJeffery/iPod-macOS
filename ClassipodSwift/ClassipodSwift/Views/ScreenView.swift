@@ -121,14 +121,20 @@ struct ScreenView: View {
             )
             .environmentObject(vm)
         case .playlistSongs(let idx):
-            let pl = vm.playlists[idx]
-            let songs = pl.songIDs.compactMap { id in vm.songs.first { $0.id == id } }
-            SongListView(
-                title: pl.name,
-                songs: songs,
-                selectedIndex: vm.selectedIndex
-            )
-            .environmentObject(vm)
+            let allPlaylists = vm.playlists
+            if idx < allPlaylists.count {
+                let pl = allPlaylists[idx]
+                let songs = pl.songIDs.compactMap { id in vm.songs.first { $0.id == id } }
+                SongListView(
+                    title: pl.name,
+                    songs: songs,
+                    selectedIndex: vm.selectedIndex
+                )
+                .environmentObject(vm)
+            } else {
+                MenuListView(title: "Playlist", items: [], selectedIndex: 0)
+                    .environmentObject(vm)
+            }
         case .nowPlaying:
             NowPlayingView()
                 .environmentObject(vm)
