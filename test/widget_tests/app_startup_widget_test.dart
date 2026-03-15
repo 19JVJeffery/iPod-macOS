@@ -77,14 +77,15 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          deviceDirectoryProvider.overrideWith(
-            (_) => throw Exception('Test Exception'),
+          appStartupControllerProvider.overrideWith(
+            (_) => Future.error(Exception('Test Exception')),
           ),
         ],
         child: const AppStartupScreen(app: ClassipodApp()),
       ),
     );
-    await tester.pumpAndSettle();
-    await expectLater(find.textContaining('Test Exception'), findsOne);
+    await tester.pump();
+    await tester.pump();
+    expect(find.textContaining('Test Exception'), findsOne);
   });
 }
