@@ -61,7 +61,7 @@
 		F123 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		F124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F126 /* ClassipodSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClassipodSwift.entitlements; sourceTree = "<group>"; };
+		F126 /* ClassipodSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClassipodSwift.entitlements; sourceTree = SOURCE_ROOT; };
 		F125b /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		F126b /* BatteryIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryIndicatorView.swift; sourceTree = "<group>"; };
 		PROD /* ClassipodSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassipodSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +90,7 @@
 				F126   /* ClassipodSwift.entitlements */,
 				PRODGRP /* Products */,
 			);
+			path = ClassipodSwift;
 			sourceTree = "<group>";
 		};
 		PRODGRP /* Products */ = {
