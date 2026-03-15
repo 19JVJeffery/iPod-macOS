@@ -156,9 +156,7 @@ struct ClickWheelView: View {
 
             accumulatedDelta += delta
 
-            let sensitivity = settings.settings.clickWheelSensitivity
-            let smallThreshold = sensitivity.smallThreshold
-            let bigThreshold = sensitivity.bigThreshold
+            let smallThreshold = settings.settings.clickWheelSensitivity.smallThreshold
 
             // Throttle scroll events
             if abs(accumulatedDelta) >= smallThreshold {
