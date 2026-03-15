@@ -82,11 +82,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.trackingArea = trackingArea
     }
 
-    override func mouseEntered(with event: NSEvent) {
+    func mouseEntered(with event: NSEvent) {
         showWindowControls(true)
     }
 
-    override func mouseExited(with event: NSEvent) {
+    func mouseExited(with event: NSEvent) {
         showWindowControls(false)
     }
 
