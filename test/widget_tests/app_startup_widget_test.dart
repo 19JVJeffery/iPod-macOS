@@ -77,8 +77,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          deviceDirectoryProvider.overrideWith(
-            (_) => throw Exception('Test Exception'),
+          appStartupControllerProvider.overrideWith(
+            (ref) async => throw Exception('Test Exception'),
           ),
         ],
         child: const AppStartupScreen(app: ClassipodApp()),
