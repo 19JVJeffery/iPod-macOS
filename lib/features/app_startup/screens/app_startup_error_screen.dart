@@ -16,17 +16,18 @@ class AppStartupError extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      home: CupertinoPageScaffold(
+      builder: (ctx, _) => CupertinoPageScaffold(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${AppLocalizations.of(context)?.commonErrorText ?? ''} $error',
+                '${AppLocalizations.of(ctx)?.commonErrorText ?? ''} $error',
               ),
               CupertinoButton(
                 onPressed: onRetry,
                 child: Text(
-                  AppLocalizations.of(context)?.retryButtonText ?? 'Retry',
+                  AppLocalizations.of(ctx)?.retryButtonText ?? 'Retry',
                 ),
               ),
             ],
