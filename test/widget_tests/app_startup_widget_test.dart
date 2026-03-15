@@ -84,8 +84,7 @@ void main() {
         child: const AppStartupScreen(app: ClassipodApp()),
       ),
     );
-    await tester.pump(); // flush Future.error microtask, mark widget dirty
-    await tester.pump(); // rebuild widget tree, show AppStartupError
+    await tester.pumpAndSettle();
     expect(find.textContaining('Test Exception'), findsOne);
   });
 }
