@@ -32,6 +32,10 @@ jobs:
       - name: Run tests
         run: flutter test
 
+      - name: Install CocoaPods dependencies
+        working-directory: macos
+        run: pod install
+
       - name: Build macOS app (debug)
         working-directory: macos
         run: |
