@@ -42,8 +42,9 @@ struct BatteryIndicatorView: View {
 
     private func updateBattery() {
         guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
-              let sources = IOPSCopyList(snapshot)?.takeRetainedValue() as? [[String: Any]],
-              let source = sources.first else {
+              let sourceRefs = IOPSCopyPowerSourcesList(snapshot)?.takeRetainedValue() as? [CFTypeRef],
+              let firstRef = sourceRefs.first,
+              let source = IOPSGetPowerSourceDescription(snapshot, firstRef)?.takeUnretainedValue() as? [String: Any] else {
             batteryLevel = 1.0
             isCharging = false
             return
